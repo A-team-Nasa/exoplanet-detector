@@ -1,3 +1,5 @@
 # Ignorar la carpeta de entorno virtual
 venv
 __pycache__/
+node_modules
+package-lock.json
