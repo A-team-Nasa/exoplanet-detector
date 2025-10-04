@@ -1,0 +1,7 @@
+# Core
+fastapi==0.115.2
+uvicorn[standard]==0.32.0
+
+# Configuración
+python-dotenv==1.0.1
+pydantic==2.9.2
