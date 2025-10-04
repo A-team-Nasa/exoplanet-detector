@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from app.llm import predict_exoplanet  # tu función que recibe un dict
+from api.llm import predict_exoplanet
 
 app = FastAPI(
     title="API KOI",
