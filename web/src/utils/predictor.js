@@ -11,7 +11,7 @@ export const predictSingleObject = async (data) => {
   // que tenga el modelo XGBoost cargado
   
   try {
-    const response = await fetch('/api/predict', {
+    const response = await fetch('http://127.0.0.1:8000/predict', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
