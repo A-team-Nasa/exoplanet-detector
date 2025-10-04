@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from api.llm import predict_exoplanet
+from llm import predict_exoplanet
 
 app = FastAPI(
     title="API KOI",
@@ -41,6 +41,5 @@ def predict_endpoint(data: ExoplanetData):
     data_dict = data.dict()
     result = predict_exoplanet(data_dict)
     return {
-        "prediction": result["prediction"],
-        "probabilities": result["probabilities"]
+        "prediction": result,
     }
