@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from llm import predict_exoplanet
+from model_xg import predict_exoplanet
+from llm_connection import get_explanation
 
 app = FastAPI(
     title="API KOI",
@@ -65,7 +66,7 @@ def predict_endpoint(data: ExoplanetData):
 
     """ 
     result["success"] = True
-    result["llm_analysis"] = "The transit depth and duration strongly suggest the presence of an exoplanet..."
+    result["llm_analysis"] = get_explanation(data_dict, result)
     result["lightCurve"] = [
         { "time": 0.0, "flux": 1.002 },
         { "time": 0.1, "flux": 0.998 },
