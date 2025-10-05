@@ -63,44 +63,7 @@ const exampleKOIs = [
     koi_fpflag_co: '0',
     koi_fpflag_ec: '0'
   },
-  // CANDIDATE: K00753.01
-  {
-    koi_period: '19.899',
-    koi_impact: '0.969',
-    koi_duration: '1.7822',
-    koi_depth: '10829',
-    koi_prad: '14.6',
-    koi_teq: '638.0',
-    koi_insol: '39.3',
-    koi_model_snr: '76.3',
-    koi_steff: '5853.0',
-    koi_slogg: '4.544',
-    koi_srad: '0.868',
-    koi_kepmag: '15.436',
-    koi_fpflag_nt: '0',
-    koi_fpflag_ss: '0',
-    koi_fpflag_co: '0',
-    koi_fpflag_ec: '0'
-  },
-  // FALSE POSITIVE: K00754.01
-  {
-    koi_period: '1.7369',
-    koi_impact: '1.276',
-    koi_duration: '2.406',
-    koi_depth: '8079',
-    koi_prad: '33.46',
-    koi_teq: '1395.0',
-    koi_insol: '891.96',
-    koi_model_snr: '505.6',
-    koi_steff: '5805.0',
-    koi_slogg: '4.564',
-    koi_srad: '0.791',
-    koi_kepmag: '15.597',
-    koi_fpflag_nt: '0',
-    koi_fpflag_ss: '1',
-    koi_fpflag_co: '0',
-    koi_fpflag_ec: '0'
-  }
+
 ];
 
   const handleChange = (e) => {

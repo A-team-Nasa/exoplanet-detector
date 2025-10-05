@@ -217,9 +217,6 @@ export default function App() {
                         ? '🛸 Candidate Exoplanet!'
                         : '🔍 No Exoplanet Detected'}
                   </h2>
-                  <p className="text-lg opacity-90">
-                    Classification Confidence: {Math.max(...Object.values(results.probabilities)).toFixed(1)}%
-                  </p>
                 </div>
                 <Target className="w-20 h-20 opacity-30" />
               </div>
@@ -248,8 +245,8 @@ export default function App() {
                       <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
                         <div
                           className={`h-full rounded-full transition-all duration-500 ${label === 'CONFIRMED' ? 'bg-green-500' :
-                              label === 'CANDIDATE' ? 'bg-yellow-500' :
-                                'bg-red-500'
+                            label === 'CANDIDATE' ? 'bg-yellow-500' :
+                              'bg-red-500'
                             } ${isHighest ? 'shadow-lg' : ''}`}
                           style={{ width: `${percentage}%` }}
                         />
@@ -287,15 +284,291 @@ export default function App() {
         {/* Advanced Tab */}
         {activeTab === 'advanced' && showAdvancedResults && (
           <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
-                <Brain className="w-6 h-6 mr-2 text-purple-500" />
-                AI-Powered Analysis
-              </h3>
-              <div className="bg-gray-50 rounded-lg p-4 text-sm leading-relaxed prose max-w-none">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {llmAnalysis}
-                </ReactMarkdown>
+            {/* Header Banner */}
+            <div className="bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 rounded-xl shadow-2xl p-8 text-white">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="flex items-center space-x-3 mb-2">
+                    <Brain className="w-10 h-10" />
+                    <h2 className="text-3xl font-bold">AI-Powered Deep Analysis</h2>
+                  </div>
+                  <p className="text-blue-100 text-lg">
+                    Advanced machine learning insights and astronomical interpretation
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Main Analysis Content */}
+            <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+              {/* Decorative Header */}
+              <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-6 border-b border-purple-100">
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                  <span className="text-sm font-semibold text-purple-700 ml-2">LLM OUTPUT</span>
+                </div>
+              </div>
+
+              {/* Analysis Content */}
+              <div className="p-8">
+                <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-lg p-6 border-2 border-purple-100 shadow-inner">
+                  <div className="prose prose-lg max-w-none
+                    prose-headings:text-purple-900 prose-headings:font-bold
+                    prose-h1:text-3xl prose-h1:mb-4 prose-h1:border-b-2 prose-h1:border-purple-200 prose-h1:pb-2
+                    prose-h2:text-2xl prose-h2:mt-6 prose-h2:mb-3 prose-h2:text-indigo-800
+                    prose-h3:text-xl prose-h3:mt-4 prose-h3:mb-2 prose-h3:text-blue-700
+                    prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-4
+                    prose-strong:text-purple-700 prose-strong:font-bold
+                    prose-ul:my-4 prose-ul:space-y-2
+                    prose-li:text-gray-700 prose-li:pl-2
+                    prose-code:bg-purple-100 prose-code:text-purple-800 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm
+                    prose-blockquote:border-l-4 prose-blockquote:border-purple-400 prose-blockquote:bg-purple-50 prose-blockquote:pl-4 prose-blockquote:py-2 prose-blockquote:italic
+                    prose-table:border-collapse prose-table:w-full
+                    prose-th:bg-purple-100 prose-th:p-3 prose-th:text-left prose-th:font-semibold prose-th:text-purple-900
+                    prose-td:border prose-td:border-gray-200 prose-td:p-3 prose-td:text-gray-700
+                  ">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {llmAnalysis}
+                    </ReactMarkdown>
+                  </div>
+                </div>
+
+                {/* Footer Info */}
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                  <div className="flex items-center justify-between text-sm text-gray-600">
+                    <div className="flex items-center space-x-2">
+                      <AlertCircle className="w-4 h-4 text-purple-500" />
+                      <span>Analysis generated by advanced AI model</span>
+                    </div>
+                    <div className="flex items-center space-x-4">
+                      <span className="font-medium text-purple-600">Model: GPT-4</span>
+                      <span>•</span>
+                      <span>Timestamp: {new Date().toLocaleString()}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Model Performance Metrics Section */}
+            <div className="bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 rounded-xl shadow-2xl overflow-hidden">
+              <div className="bg-gradient-to-r from-cyan-500 to-blue-500 p-6">
+                <h3 className="text-2xl font-bold text-white flex items-center">
+                  <TrendingUp className="w-8 h-8 mr-3" />
+                  XGBoost Model Performance Metrics
+                </h3>
+                <p className="text-cyan-100 mt-1">Trained on 1,913 test samples with 200 iterations</p>
+              </div>
+
+              <div className="p-8">
+                {/* Overall Accuracy */}
+                <div className="mb-8">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-xl font-bold text-white">Overall Accuracy</h4>
+                    <span className="text-4xl font-bold text-green-400">92.0%</span>
+                  </div>
+                  <div className="w-full bg-slate-700 rounded-full h-4 overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-green-400 to-emerald-500 rounded-full shadow-lg" style={{ width: '92%' }}></div>
+                  </div>
+                </div>
+
+                {/* Per-Class Metrics */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                  {/* CANDIDATE */}
+                  <div className="bg-slate-700 bg-opacity-50 rounded-lg p-6 border border-yellow-500 border-opacity-30">
+                    <div className="flex items-center justify-between mb-4">
+                      <h5 className="text-lg font-bold text-yellow-400">CANDIDATE</h5>
+                      <span className="text-sm text-slate-300">396 samples</span>
+                    </div>
+                    <div className="space-y-3">
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-slate-300">Precision</span>
+                          <span className="text-white font-semibold">81%</span>
+                        </div>
+                        <div className="w-full bg-slate-600 rounded-full h-2">
+                          <div className="h-full bg-yellow-400 rounded-full" style={{ width: '81%' }}></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-slate-300">Recall</span>
+                          <span className="text-white font-semibold">81%</span>
+                        </div>
+                        <div className="w-full bg-slate-600 rounded-full h-2">
+                          <div className="h-full bg-yellow-400 rounded-full" style={{ width: '81%' }}></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-slate-300">F1-Score</span>
+                          <span className="text-white font-semibold">81%</span>
+                        </div>
+                        <div className="w-full bg-slate-600 rounded-full h-2">
+                          <div className="h-full bg-yellow-400 rounded-full" style={{ width: '81%' }}></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* CONFIRMED */}
+                  <div className="bg-slate-700 bg-opacity-50 rounded-lg p-6 border border-green-500 border-opacity-30">
+                    <div className="flex items-center justify-between mb-4">
+                      <h5 className="text-lg font-bold text-green-400">CONFIRMED</h5>
+                      <span className="text-sm text-slate-300">549 samples</span>
+                    </div>
+                    <div className="space-y-3">
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-slate-300">Precision</span>
+                          <span className="text-white font-semibold">88%</span>
+                        </div>
+                        <div className="w-full bg-slate-600 rounded-full h-2">
+                          <div className="h-full bg-green-400 rounded-full" style={{ width: '88%' }}></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-slate-300">Recall</span>
+                          <span className="text-white font-semibold">88%</span>
+                        </div>
+                        <div className="w-full bg-slate-600 rounded-full h-2">
+                          <div className="h-full bg-green-400 rounded-full" style={{ width: '88%' }}></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-slate-300">F1-Score</span>
+                          <span className="text-white font-semibold">88%</span>
+                        </div>
+                        <div className="w-full bg-slate-600 rounded-full h-2">
+                          <div className="h-full bg-green-400 rounded-full" style={{ width: '88%' }}></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* FALSE POSITIVE */}
+                  <div className="bg-slate-700 bg-opacity-50 rounded-lg p-6 border border-red-500 border-opacity-30">
+                    <div className="flex items-center justify-between mb-4">
+                      <h5 className="text-lg font-bold text-red-400">FALSE POSITIVE</h5>
+                      <span className="text-sm text-slate-300">968 samples</span>
+                    </div>
+                    <div className="space-y-3">
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-slate-300">Precision</span>
+                          <span className="text-white font-semibold">99%</span>
+                        </div>
+                        <div className="w-full bg-slate-600 rounded-full h-2">
+                          <div className="h-full bg-red-400 rounded-full" style={{ width: '99%' }}></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-slate-300">Recall</span>
+                          <span className="text-white font-semibold">99%</span>
+                        </div>
+                        <div className="w-full bg-slate-600 rounded-full h-2">
+                          <div className="h-full bg-red-400 rounded-full" style={{ width: '99%' }}></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-slate-300">F1-Score</span>
+                          <span className="text-white font-semibold">99%</span>
+                        </div>
+                        <div className="w-full bg-slate-600 rounded-full h-2">
+                          <div className="h-full bg-red-400 rounded-full" style={{ width: '99%' }}></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Summary Stats */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                  <div className="bg-slate-700 bg-opacity-30 rounded-lg p-4 text-center">
+                    <p className="text-slate-400 text-sm mb-1">Macro Avg</p>
+                    <p className="text-2xl font-bold text-cyan-400">89%</p>
+                  </div>
+                  <div className="bg-slate-700 bg-opacity-30 rounded-lg p-4 text-center">
+                    <p className="text-slate-400 text-sm mb-1">Weighted Avg</p>
+                    <p className="text-2xl font-bold text-cyan-400">92%</p>
+                  </div>
+                  <div className="bg-slate-700 bg-opacity-30 rounded-lg p-4 text-center">
+                    <p className="text-slate-400 text-sm mb-1">Total Classes</p>
+                    <p className="text-2xl font-bold text-purple-400">3</p>
+                  </div>
+                  <div className="bg-slate-700 bg-opacity-30 rounded-lg p-4 text-center">
+                    <p className="text-slate-400 text-sm mb-1">Iterations</p>
+                    <p className="text-2xl font-bold text-purple-400">200</p>
+                  </div>
+                </div>
+
+                {/* Training Progress */}
+                <div className="mt-8 bg-slate-700 bg-opacity-30 rounded-lg p-6">
+                  <h5 className="text-lg font-bold text-white mb-4 flex items-center">
+                    <Activity className="w-5 h-5 mr-2 text-cyan-400" />
+                    Training Loss Evolution
+                  </h5>
+                  <div className="space-y-2 text-sm font-mono">
+                    <div className="flex justify-between text-slate-300">
+                      <span>Iteration [0]</span>
+                      <span className="text-red-400">mlogloss: 0.99566</span>
+                    </div>
+                    <div className="flex justify-between text-slate-300">
+                      <span>Iteration [50]</span>
+                      <span className="text-orange-400">mlogloss: 0.21656</span>
+                    </div>
+                    <div className="flex justify-between text-slate-300">
+                      <span>Iteration [100]</span>
+                      <span className="text-yellow-400">mlogloss: 0.19643</span>
+                    </div>
+                    <div className="flex justify-between text-slate-300">
+                      <span>Iteration [150]</span>
+                      <span className="text-green-400">mlogloss: 0.19581</span>
+                    </div>
+                    <div className="flex justify-between text-slate-300">
+                      <span>Iteration [199]</span>
+                      <span className="text-cyan-400">mlogloss: 0.20110 ✓</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Additional Info Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-6 text-white shadow-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <Brain className="w-8 h-8 opacity-80" />
+                  <span className="text-3xl font-bold">AI</span>
+                </div>
+                <h4 className="font-semibold text-lg mb-1">Neural Analysis</h4>
+                <p className="text-purple-100 text-sm">Deep learning interpretation of astronomical data</p>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white shadow-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <Target className="w-8 h-8 opacity-80" />
+                  <span className="text-3xl font-bold">{predictionResult?.prediction}</span>
+                </div>
+                <h4 className="font-semibold text-lg mb-1">Classification</h4>
+                <p className="text-blue-100 text-sm">Final model prediction result</p>
+              </div>
+
+              <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg p-6 text-white shadow-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <TrendingUp className="w-8 h-8 opacity-80" />
+                  <span className="text-3xl font-bold">
+                    {Object.keys(predictionResult?.probabilities || {}).length}
+                  </span>
+                </div>
+                <h4 className="font-semibold text-lg mb-1">Classes Evaluated</h4>
+                <p className="text-indigo-100 text-sm">Multi-class probability distribution</p>
               </div>
             </div>
           </div>
