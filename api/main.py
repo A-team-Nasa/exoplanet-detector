@@ -40,6 +40,36 @@ class ExoplanetData(BaseModel):
 def predict_endpoint(data: ExoplanetData):
     data_dict = data.dict()
     result = predict_exoplanet(data_dict)
-    return {
-        "prediction": result,
-    }
+    """
+    {
+  "success": true,
+  "prediction": "CONFIRMED", 
+  "probabilities": {
+    "CANDIDATE": 2.38,
+    "CONFIRMED": 97.56,
+    "FALSE POSITIVE": 0.06
+  },
+  "features": {
+    "koi_period": 9.488,
+    "koi_duration": 2.9575,
+    "koi_depth": 0.0021,
+    "koi_impact": 0.146
+  },
+  "lightCurve": [
+    { "time": 0.0, "flux": 1.002 },
+    { "time": 0.1, "flux": 0.998 },
+    { "time": 0.2, "flux": 0.997 }
+  ],
+  "llm_analysis": "The transit depth and duration strongly suggest the presence of an exoplanet..."
+}
+
+    """ 
+    result["success"] = True
+    result["llm_analysis"] = "The transit depth and duration strongly suggest the presence of an exoplanet..."
+    result["lightCurve"] = [
+        { "time": 0.0, "flux": 1.002 },
+        { "time": 0.1, "flux": 0.998 },
+        { "time": 0.2, "flux": 0.997 }
+    ]
+    result["features"] = data_dict
+    return result
