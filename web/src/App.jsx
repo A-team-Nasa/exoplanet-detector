@@ -4,9 +4,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import Papa from 'papaparse';
 import PredictionForm from './components/PredictionForm';
 import ExoplanetVisualization from './components/ExoplanetVisualization';
+import KidsMode from './components/KidsMode';
 import { predictSingleObject as apiPredict } from './services/api';
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 
 function StatCard({ icon: Icon, title, value, subtitle, color }) {
   return (
@@ -28,13 +27,16 @@ export default function App() {
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('upload');
-
+  
   const [showPredictionForm, setShowPredictionForm] = useState(false);
   const [predictionResult, setPredictionResult] = useState(null);
   const [llmAnalysis, setLlmAnalysis] = useState('');
   const [showAdvancedResults, setShowAdvancedResults] = useState(false);
+  
+  // Estado para Kids Mode
+  const [isKidsMode, setIsKidsMode] = useState(false);
 
-  // 🚀 Nueva función: tomar los datos CSV y mandar al backend
+  // Función: tomar los datos CSV y mandar al backend
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -45,9 +47,9 @@ export default function App() {
         skipEmptyLines: true,
         complete: async (result) => {
           try {
-            setCsvData(result.data[0]);
+            setCsvData(result.data);
             // Mandamos directamente al backend
-            const response = await apiPredict(result.data[0]);
+            const response = await apiPredict({ lightcurve: result.data });
 
             if (response.success) {
               setResults(response);
@@ -73,7 +75,7 @@ export default function App() {
     }
   };
 
-  // 🚀 Predicción desde formulario (objeto individual)
+  // Predicción desde formulario (objeto individual)
   const handlePredict = async (data) => {
     setLoading(true);
     try {
@@ -94,6 +96,11 @@ export default function App() {
     }
   };
 
+  // Si está en modo Kids, mostrar solo ese componente
+  if (isKidsMode) {
+    return <KidsMode onExit={() => setIsKidsMode(false)} />;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-blue-900">
       {/* Header */}
@@ -108,7 +115,15 @@ export default function App() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <button
+              {/* Botón Kids Mode */}
+              <button 
+                className="btn-kids-mode"
+                onClick={() => setIsKidsMode(true)}
+              >
+                🎨 Kids Mode
+              </button>
+              
+              <button 
                 className="btn-predict-single"
                 onClick={() => setShowPredictionForm(true)}
               >
@@ -128,10 +143,11 @@ export default function App() {
         <div className="flex space-x-2 bg-black bg-opacity-20 backdrop-blur-sm rounded-lg p-1">
           <button
             onClick={() => setActiveTab('upload')}
-            className={`flex-1 py-3 px-4 rounded-md font-medium transition-all ${activeTab === 'upload'
+            className={`flex-1 py-3 px-4 rounded-md font-medium transition-all ${
+              activeTab === 'upload'
                 ? 'bg-blue-500 text-white shadow-lg'
                 : 'text-blue-200 hover:bg-white hover:bg-opacity-10'
-              }`}
+            }`}
           >
             <Upload className="w-5 h-5 inline mr-2" />
             Upload Data
@@ -139,10 +155,11 @@ export default function App() {
           <button
             onClick={() => setActiveTab('results')}
             disabled={!results}
-            className={`flex-1 py-3 px-4 rounded-md font-medium transition-all ${activeTab === 'results' && results
+            className={`flex-1 py-3 px-4 rounded-md font-medium transition-all ${
+              activeTab === 'results' && results
                 ? 'bg-blue-500 text-white shadow-lg'
                 : 'text-blue-200 hover:bg-white hover:bg-opacity-10 disabled:opacity-50 disabled:cursor-not-allowed'
-              }`}
+            }`}
           >
             <Target className="w-5 h-5 inline mr-2" />
             Analysis Results
@@ -150,10 +167,11 @@ export default function App() {
           <button
             onClick={() => setActiveTab('advanced')}
             disabled={!showAdvancedResults}
-            className={`flex-1 py-3 px-4 rounded-md font-medium transition-all ${activeTab === 'advanced' && showAdvancedResults
+            className={`flex-1 py-3 px-4 rounded-md font-medium transition-all ${
+              activeTab === 'advanced' && showAdvancedResults
                 ? 'bg-purple-500 text-white shadow-lg'
                 : 'text-purple-200 hover:bg-white hover:bg-opacity-10 disabled:opacity-50 disabled:cursor-not-allowed'
-              }`}
+            }`}
           >
             <Globe className="w-5 h-5 inline mr-2" />
             Advanced Analysis
@@ -204,10 +222,11 @@ export default function App() {
         {activeTab === 'results' && results && (
           <div className="space-y-6">
             {/* Banner */}
-            <div className={`rounded-xl shadow-lg p-6 ${results.prediction === 'CONFIRMED'
-                ? 'bg-gradient-to-r from-green-500 to-emerald-600'
+            <div className={`rounded-xl shadow-lg p-6 ${
+              results.prediction === 'CONFIRMED'
+                ? 'bg-gradient-to-r from-green-500 to-emerald-600' 
                 : 'bg-gradient-to-r from-orange-500 to-red-600'
-              }`}>
+            }`}>
               <div className="flex items-center justify-between text-white">
                 <div>
                   <h2 className="text-3xl font-bold mb-2">
@@ -221,26 +240,13 @@ export default function App() {
               </div>
             </div>
 
-            {/* 3D Exoplanet Visualization or Info Message */}
+            {/* 3D Exoplanet Visualization */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
                 <Globe className="w-6 h-6 mr-2 text-blue-500" />
                 3D Exoplanet Visualization
               </h3>
-              {results.prediction === 'CONFIRMED' || results.prediction === 'CANDIDATE' ? (
-                <ExoplanetVisualization features={results.features} />
-              ) : (
-                <div className="bg-gray-50 rounded-lg p-12 text-center">
-                  <AlertCircle className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-                  <h4 className="text-xl font-semibold text-gray-700 mb-2">
-                    No Exoplanet Visualization Available
-                  </h4>
-                  <p className="text-gray-600">
-                    The analysis did not confirm an exoplanet detection. 
-                    This could be a false positive or require additional verification.
-                  </p>
-                </div>
-              )}
+              <ExoplanetVisualization features={results} />
             </div>
           </div>
         )}
@@ -253,10 +259,8 @@ export default function App() {
                 <Brain className="w-6 h-6 mr-2 text-purple-500" />
                 AI-Powered Analysis
               </h3>
-              <div className="bg-gray-50 rounded-lg p-4 text-sm leading-relaxed prose max-w-none">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {llmAnalysis}
-                </ReactMarkdown>
+              <div className="bg-gray-50 rounded-lg p-4 text-sm leading-relaxed">
+                {llmAnalysis}
               </div>
             </div>
           </div>

@@ -324,3 +324,1581 @@ body {
     justify-content: center;
   }
 }
+
+/* PEGAR ESTOS ESTILOS AL FINAL DE TU index.css */
+
+/* ========================================
+   ESTILOS PARA EL MODAL DE PREDICCIÓN
+   ======================================== */
+
+/* Modal Overlay - Fondo oscuro */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+  overflow-y: auto;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Contenedor del modal */
+.modal-content {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 16px;
+  max-width: 1000px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Header del modal */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px 16px 0 0;
+  border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.close-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.3s;
+  font-weight: 300;
+}
+
+.close-button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Formulario */
+.prediction-form {
+  padding: 32px;
+}
+
+.form-actions-top {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Grid de campos */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+/* Campo individual */
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.form-field input {
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.3s;
+  background-color: white;
+  color: #1f2937;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.form-field input:hover {
+  border-color: #cbd5e1;
+}
+
+.form-field input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  background-color: #fefefe;
+}
+
+.form-field input::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Botones */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  padding-top: 32px;
+  border-top: 2px solid #e5e7eb;
+}
+
+.btn-secondary,
+.btn-cancel,
+.btn-send {
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+  font-family: 'Inter', -apple-system, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+}
+
+.btn-cancel {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border: 2px solid #e5e7eb;
+}
+
+.btn-cancel:hover {
+  background-color: #e5e7eb;
+  border-color: #d1d5db;
+}
+
+.btn-send {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 14px 48px;
+  font-weight: 700;
+  font-size: 16px;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+}
+
+.btn-send:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.5);
+}
+
+.btn-send:disabled,
+.btn-cancel:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Botón Kids Mode */
+.btn-kids-mode {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 14px rgba(240, 147, 251, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-kids-mode:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(240, 147, 251, 0.5);
+  background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+}
+
+.exit-kids-mode-btn {
+  background: white;
+  color: #667eea;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: 2px solid #667eea;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 20px;
+  transition: all 0.3s;
+}
+
+.exit-kids-mode-btn:hover {
+  background: #667eea;
+  color: white;
+}
+
+.kids-mode-header {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px 0;
+}
+
+/* Botón Kids Mode */
+.btn-kids-mode {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 14px rgba(240, 147, 251, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-kids-mode:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(240, 147, 251, 0.5);
+  background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+}
+
+.exit-kids-mode-btn {
+  background: white;
+  color: #667eea;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: 2px solid #667eea;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 20px;
+  transition: all 0.3s;
+}
+
+.exit-kids-mode-btn:hover {
+  background: #667eea;
+  color: white;
+}
+
+.kids-mode-header {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px 0;
+}
+
+/* Botón principal para abrir el modal */
+.btn-predict-single {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-predict-single:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.5);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+.btn-predict-single:active {
+  transform: translateY(-1px);
+}
+
+/* Scrollbar personalizada para el modal */
+.modal-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-content {
+    margin: 10px;
+    max-height: 95vh;
+  }
+
+  .modal-header {
+    padding: 20px;
+  }
+
+  .modal-header h2 {
+    font-size: 22px;
+  }
+
+  .prediction-form {
+    padding: 20px;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .btn-secondary,
+  .btn-cancel,
+  .btn-send {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ========================================
+   KIDS MODE STYLES
+   ======================================== */
+
+.kids-mode-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  font-family: 'Inter';
+  position: relative;
+}
+
+
+/* Reemplaza el selector .kids-exit-btn y su :hover en tu CSS */
+/* ========================================
+   AJUSTE DE COLOR DEL BOTÓN DE SALIDA 
+   ======================================== */
+.kids-exit-btn {
+  /* ... tus estilos de position, padding, etc. */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Color interfaz principal */
+  color: white; 
+  border: none;
+  box-shadow: 0 4px 12px rgba(118, 75, 162, 0.3); 
+  /* ... el resto de tus estilos */
+}
+
+.kids-exit-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(118, 75, 162, 0.4);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.kids-welcome {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 60px;
+}
+
+.kepler-character {
+  margin-bottom: 40px;
+  margin-top: 60px;  /* ← AGREGAR ESTA LÍNEA */
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.character-bubble {
+  background: white;
+  border-radius: 30px;
+  padding: 30px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.character-bubble::after {
+  content: '';
+  position: absolute;
+  top: 100%;  /* Cambia de bottom: -20px a esto */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid white;
+}
+
+.speech-bubble {
+  font-size: 20px;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.character-img {
+    /* 💥 ESTA LÍNEA DEFINE EL TAMAÑO DE KEPLER EN GRANDE 💥 */
+    font-size: 100px; /* ¡Usa 100px para que se vea realmente grande! */
+    margin-top: 15px; /* Espacio debajo de la burbuja */
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 0, 0)); 
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.kids-title {
+  font-size: 48px;
+  color: black;
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3);
+  margin-bottom: 40px;
+}
+
+.kids-intro {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 30px;
+  padding: 50px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.kids-info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.kids-card {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  border-radius: 20px;
+  padding: 30px;
+  color: white;
+  transition: transform 0.3s;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.kids-card:hover {
+  transform: translateY(-10px) rotate(2deg);
+}
+
+.kids-card-icon {
+  font-size: 60px;
+  margin-bottom: 15px;
+}
+
+.kids-card h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.kids-card p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.kids-start-btn {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  border: none;
+  padding: 20px 50px;
+  font-size: 24px;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+}
+
+.kids-start-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 15px 40px rgba(245, 87, 108, 0.6);
+}
+
+.btn-kids-mode {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 14px rgba(240, 147, 251, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-kids-mode:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(240, 147, 251, 0.5);
+  background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+}
+
+/* Agregar el resto de estilos del modo mysteries, investigation, learn, etc */
+
+/* Continuación del CSS que falta después de .kids-intro */
+
+.kids-intro {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.kids-info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+  text-align: left;
+}
+
+.kids-card {
+  background: linear-gradient(145deg, #e6e6fa, #d8bfd8); /* Lavanda */
+  border: 4px solid #9370db; /* MediumPurple */
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s;
+}
+
+.kids-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.kids-card-icon {
+  font-size: 40px;
+  margin-bottom: 15px;
+}
+
+.kids-card h3 {
+  font-size: 22px;
+  color: #4b0082; /* Indigo */
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.kids-card p {
+  font-size: 16px;
+  color: #333;
+}
+
+.kids-start-btn {
+  background: linear-gradient(45deg, #ff6b6b, #feca57);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
+  transition: all 0.3s;
+}
+
+.kids-start-btn:hover {
+  transform: scale(1.05) rotate(1deg);
+  box-shadow: 0 12px 25px rgba(255, 107, 107, 0.7);
+}
+
+/* --- Mysteries Screen --- */
+.kids-mysteries {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 60px;
+}
+
+.kids-header {
+  margin-bottom: 40px;
+}
+
+.kids-stats {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.stat-badge {
+  background: rgba(255, 255, 255, 0.85);
+  color: #667eea;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 18px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.kepler-helper {
+  display: flex;
+  flex-direction: column;  /* ← AGREGAR */
+  align-items: center;     /* ← AGREGAR */
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.helper-bubble {
+  background: #ffecb3; /* Color amarillo pastel */
+  border: 3px solid #f9a825; /* Color amarillo oscuro */
+  border-radius: 25px;
+  padding: 15px 25px;
+  font-size: 18px;
+  color: #333;
+  position: relative;
+  max-width: 80%;
+}
+
+.helper-bubble::after {
+  content: ' ';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  border-width: 10px;
+  border-style: solid;
+  border-color: #f9a825 transparent transparent transparent;
+}
+
+.kids-section-title {
+  font-size: 36px;
+  color: black;
+  text-shadow: 2px 2px 0px #764ba2;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.mysteries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.mystery-card {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 4px solid transparent;
+}
+
+.mystery-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  border-color: #667eea;
+}
+
+.mystery-icon {
+  font-size: 60px;
+  margin-bottom: 10px;
+}
+
+.mystery-card h3 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.mystery-card p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.mystery-difficulty {
+  font-size: 14px;
+  font-weight: bold;
+  color: #f5576c;
+  background: #ffe0e6;
+  padding: 5px 10px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.mystery-example {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #999;
+  font-style: italic;
+}
+
+.kids-learn-more {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.btn-learn {
+  background: linear-gradient(45deg, #9370db, #667eea);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(147, 112, 219, 0.5);
+  transition: all 0.3s;
+}
+
+.btn-learn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(147, 112, 219, 0.7);
+}
+
+/* --- Investigation Screen --- */
+.kids-investigation {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 25px;
+  padding: 40px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  margin-top: 60px;
+}
+
+.mystery-title-big {
+  font-size: 36px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.mystery-desc {
+  font-size: 18px;
+  color: #666;
+  text-align: center;
+  margin-bottom: 30px;
+  font-style: italic;
+}
+
+.clues-section h3 {
+  font-size: 24px;
+  color: #4b0082;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e6e6fa;
+  padding-bottom: 10px;
+}
+
+.clues-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.clue-card {
+  background: #f0f8ff; /* AliceBlue */
+  border: 3px solid #667eea;
+  border-radius: 15px;
+  padding: 15px;
+  text-align: center;
+}
+
+.clue-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b0082;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.clue-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.guess-section h3 {
+  font-size: 28px;
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.guess-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.guess-btn {
+  border: none;
+  padding: 20px 25px;
+  border-radius: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 30%;
+  text-align: center;
+  transition: all 0.3s;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.guess-btn small {
+  display: block;
+  font-size: 12px;
+  font-weight: normal;
+  margin-top: 5px;
+}
+
+.guess-btn.real {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.guess-btn.maybe {
+  background: linear-gradient(135deg, #feca57, #ff6b6b);
+  color: #333;
+}
+
+.guess-btn.fake {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  color: white;
+}
+
+.guess-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Result Section --- */
+.result-section {
+  text-align: center;
+  padding: 30px;
+  border-radius: 20px;
+  margin-top: 30px;
+  animation: popIn 0.5s ease-out;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.result-section.correct {
+  background: #e6ffed;
+  border: 4px solid #10b981;
+}
+
+.result-section.incorrect {
+  background: #fff5e6;
+  border: 4px solid #f9a825;
+}
+
+.result-icon {
+  font-size: 80px;
+  margin-bottom: 10px;
+}
+
+.result-section h2 {
+  font-size: 32px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.result-section p {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.fun-fact-box {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 80%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.fun-fact-box h4 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #4b0082;
+  margin-bottom: 10px;
+}
+
+.result-actions {
+  margin-top: 30px;
+}
+
+.btn-next {
+  background: linear-gradient(45deg, #667eea, #9370db);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+  transition: all 0.3s;
+}
+
+.btn-next:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 25px rgba(102, 126, 234, 0.7);
+}
+
+/* --- Learn Screen --- */
+.kids-learn {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 60px;
+}
+
+.learn-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.learn-card {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  border: 4px solid #f0f8ff;
+}
+
+.learn-card.full-width {
+  grid-column: 1 / -1;
+}
+
+.learn-icon {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+.learn-card h3 {
+  font-size: 28px;
+  color: #4b0082;
+  margin-bottom: 20px;
+}
+
+.learn-card p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.temp-scale {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.temp-item {
+  width: 30%;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.temp-item.cold {
+  background: #b0e0e6;
+}
+
+.temp-item.perfect {
+  background: #c5f0b5;
+  border: 2px solid #10b981;
+  transform: scale(1.1);
+}
+
+.temp-item.hot {
+  background: #ffc0cb;
+}
+
+.temp-item span {
+  font-weight: bold;
+  color: #000000;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.temp-item small {
+  font-style: italic;
+  color: #000000;
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+/* Busca el selector .size-visual en tu CSS y ajústalo */
+/* ========================================
+   AJUSTE DE SUPERPOSICIÓN DE TAMAÑOS (PLANET SIZE)
+   ======================================== */
+.size-visual {
+  display: flex;
+  align-items: flex-end; /* Mantiene los planetas en la base */
+  justify-content: center;
+  gap: 25px; 
+  min-height: 180px; /* Incrementa el espacio vertical para el texto */
+  padding-bottom: 10px;
+}
+
+.planet-example {
+  text-align: center;
+  display: flex; 
+  flex-direction: column; /* Apila verticalmente */
+  align-items: center; 
+  justify-content: flex-end; 
+  height: 100%; 
+}
+
+.planet-circle {
+  margin-bottom: 8px; /* Espacio entre círculo y texto */
+  /* ... tus estilos de color y tamaño permanecen ... */
+}
+
+.planet-example p {
+  line-height: 1.2;
+  font-size: 14px; 
+  color: #333;
+  margin: 0;
+}
+
+.planet-example p strong {
+  display: block; /* Asegura que el nombre del planeta esté en su propia línea */
+  font-size: 16px;
+  color: #000000; 
+  margin-bottom: 2px;
+}
+
+.planet-example.small .planet-circle { width: 50px; height: 50px; background: #90ee90; }
+.planet-example.medium .planet-circle { width: 80px; height: 80px; font-size: 40px; background: #add8e6; }
+.planet-example.large .planet-circle { width: 110px; height: 110px; font-size: 50px; background: #ffe4b5; }
+
+.transit-explanation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding: 10px 0;
+}
+
+.transit-step {
+  text-align: center;
+  color: #000000;
+}
+
+.transit-step p {
+  color: #000000;  /* ← AGREGAR O CAMBIAR ESTO */
+}
+
+.step-number {
+  font-weight: bold;
+  background: #9370db;
+  color: black;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 5px;
+}
+
+.step-visual {
+  font-size: 40px;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+
+.arrow {
+  font-size: 30px;
+  color: #9370db;
+}
+
+.transit-note {
+  background: #fffacd;
+  border: 1px solid #ffcc00;
+  color: #000000;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.learn-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.learn-list li {
+  background: #f0f8ff;
+  color: #000000;
+  margin: 5px 0;
+  padding: 8px 15px;
+  border-left: 5px solid #667eea;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: left;
+}
+
+.learn-note {
+  font-style: italic;
+  font-weight: bold;
+  margin-top: 15px;
+  color: #000000;
+}
+
+.btn-back {
+  background: #f3f4f6;
+  color: #4b5563;
+  border: 2px solid #e5e7eb;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: block;
+  width: fit-content;
+  margin: 40px auto 0;
+}
+
+.btn-back:hover {
+  background: #e5e7eb;
+  border-color: #d1d5db;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .kids-title {
+    font-size: 36px;
+  }
+  
+  .speech-bubble {
+    font-size: 16px;
+  }
+
+  .character-img {
+    font-size: 80px;
+  }
+
+  .kids-intro {
+    padding: 20px;
+  }
+
+  .kids-info-cards {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .kids-start-btn {
+    font-size: 20px;
+    padding: 12px 30px;
+  }
+
+  .kids-section-title {
+    font-size: 28px;
+  }
+
+  .mysteries-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .guess-buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .guess-btn {
+    width: 100%;
+  }
+  
+  .kids-investigation {
+    padding: 20px;
+  }
+
+  .clues-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .learn-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .size-visual {
+      height: 120px;
+  }
+}.btn-redeem-nav {
+    /* Estilo para que el botón se destaque como premio */
+    background: linear-gradient(45deg, #f4b400, #ffcc33); /* Amarillo/Oro */
+    color: #333;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-redeem-nav:hover {
+    box-shadow: 0 4px 10px rgba(255, 204, 51, 0.5);
+}
+
+/* ESTILOS BÁSICOS PARA LA TIENDA */
+.kids-rewards {
+    padding: 60px 40px;
+    text-align: center;
+}
+
+.rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.reward-card {
+    background: #fff;
+    border: 3px solid #667eea;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.reward-card.unlocked {
+    background: #d4edda; /* Verde claro */
+    border-color: #4CAF50;
+    opacity: 0.7;
+    text-decoration: line-through;
+}
+
+.btn-redeem {
+    background: #667eea;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.btn-redeem:hover:not(:disabled) {
+    background: #505ad4;
+}
+
+.btn-redeem:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* ========================================
+   ESTILOS VISUALES PARA RECOMPENSAS Y TEMA
+   ======================================== */
+
+/* 1. ESTILOS PARA LA TIENDA Y CANJE */
+
+/* ========================================
+   ESTILOS VISUALES PARA RECOMPENSAS Y TEMA
+   ======================================== */
+
+/* 1. ESTILOS PARA LA TIENDA Y CANJE */
+
+.kids-rewards {
+    padding: 60px 40px;
+    text-align: center;
+}
+
+.rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.reward-card {
+    background: #fff;
+    border: 3px solid #667eea;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    /* Necesario para la capa de "UNLOCKED" */
+}
+
+.reward-card.unlocked {
+    background: #d4edda; 
+    border-color: #4CAF50;
+    opacity: 0.7;
+}
+
+.reward-card.unlocked::after {
+    content: "UNLOCKED";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(76, 175, 80, 0.8);
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 12px;
+    pointer-events: none; /* Permite hacer clic en lo que está debajo si fuera necesario */
+}
+
+.btn-redeem {
+    background: #667eea;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.btn-redeem:hover:not(:disabled) {
+    background: #505ad4;
+}
+
+.btn-redeem:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.btn-redeem-nav {
+    background: linear-gradient(45deg, #f4b400, #ffcc33); 
+    color: #333;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+/* 2. ESTILOS PARA EL TEMA COHETE */
+
+.kids-mode-container.theme-rocket {
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); 
+    color: #f0f0f0; 
+}
+
+/* ... (Otros estilos para el tema) ... */
+
+
+/* 3. ESTILOS PARA KEPLER ANIMADO Y PERSONALIZABLE (El Protagonista) */
+
+.kepler-character {
+    position: relative;
+    align-items: center; 
+}
+
+/* --- ESTILOS PARA LA NUEVA TRIPULACIÓN DE KEPLER --- */
+
+/* Contenedor principal de Kepler y sus compañeros */
+/* --- CONFIGURACIÓN PARA KEPLER Y SUS COMPAÑEROS AL LADO --- */
+
+/* Contenedor principal: Aumentamos el ancho para que quepan todos */
+/* --- CONFIGURACIÓN PARA KEPLER Y SUS COMPAÑEROS AL LADO (TAMAÑO GRANDE) --- */
+
+/* Contenedor principal: Aumentamos el ancho para que quepan todos */
+/* ========================================
+   AVATAR DE KEPLER Y COMPAÑEROS - CORREGIDO
+   ======================================== */
+
+.kepler-avatar-container {
+    position: relative;
+    width: 400px;
+    height: 120px;
+    margin: 80px auto 20px;  /* Cambia de "0 auto 20px" a "80px auto 20px" */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* EL PERRO KEPLER - SIEMPRE EN EL CENTRO */
+.kepler-body {
+    font-size: 120px;
+    position: relative;
+    z-index: 10;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* ESTILO BASE PARA TODOS LOS COMPAÑEROS */
+.companion {
+    position: absolute;
+    font-size: 120px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Animación de flotación para compañeros */
+@keyframes float {
+    0%, 100% { 
+        transform: translateY(-50%) translateY(0); 
+    }
+    50% { 
+        transform: translateY(-50%) translateY(-10px); 
+    }
+}
+
+/* POSICIONAMIENTO ESPECÍFICO DE CADA COMPAÑERO */
+
+/* Alien - Extrema izquierda */
+.companion-alien {
+    left: -80px;
+    animation-delay: 0.5s;
+}
+
+/* Astronauta - Izquierda cerca */
+.companion-astronaut {
+    left: -40px;
+    animation-delay: 1s;
+}
+
+/* OVNI - Derecha cerca */
+.companion-ufo {
+    right: -40px;
+    animation-delay: 1.5s;
+}
+
+/* Cohete - Extrema derecha */
+.companion-rocket {
+    right: -80px;
+    animation-delay: 2s;
+}
+
+/* EFECTO ESTRELLA (cuando se desbloquea) */
+.kepler-avatar-container.star-unlocked .kepler-body {
+    animation: bounce-sparkle 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px gold);
+}
+
+@keyframes bounce-sparkle {
+    0%, 100% { 
+        transform: translateY(0) scale(1); 
+    }
+    50% { 
+        transform: translateY(-15px) scale(1.05); 
+    }
+}
+
+/* RESPONSIVE - En móviles */
+@media (max-width: 768px) {
+    .kepler-avatar-container {
+        width: 300px;
+        height: 100px;
+    }
+    
+    .kepler-body {
+        font-size: 60px;
+    }
+    
+    .companion {
+        font-size: 45px;
+    }
+    
+    .companion-alien {
+        left: -60px;
+    }
+    
+    .companion-astronaut {
+        left: -30px;
+    }
+    
+    .companion-ufo {
+        right: -30px;
+    }
+    
+    .companion-rocket {
+        right: -60px;
+    }
+}
+/* (El resto del CSS, como .star-unlocked, se mantiene sin cambios) */
