@@ -45,9 +45,9 @@ export default function App() {
         skipEmptyLines: true,
         complete: async (result) => {
           try {
-            setCsvData(result.data);
+            setCsvData(result.data[0]);
             // Mandamos directamente al backend
-            const response = await apiPredict({ lightcurve: result.data });
+            const response = await apiPredict(result.data[0]);
 
             if (response.success) {
               setResults(response);
@@ -221,13 +221,26 @@ export default function App() {
               </div>
             </div>
 
-            {/* 3D Exoplanet Visualization */}
+            {/* 3D Exoplanet Visualization or Info Message */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
                 <Globe className="w-6 h-6 mr-2 text-blue-500" />
                 3D Exoplanet Visualization
               </h3>
-              <ExoplanetVisualization features={results.features} />
+              {results.prediction === 'CONFIRMED' || results.prediction === 'CANDIDATE' ? (
+                <ExoplanetVisualization features={results.features} />
+              ) : (
+                <div className="bg-gray-50 rounded-lg p-12 text-center">
+                  <AlertCircle className="w-16 h-16 mx-auto text-gray-400 mb-4" />
+                  <h4 className="text-xl font-semibold text-gray-700 mb-2">
+                    No Exoplanet Visualization Available
+                  </h4>
+                  <p className="text-gray-600">
+                    The analysis did not confirm an exoplanet detection. 
+                    This could be a false positive or require additional verification.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         )}
