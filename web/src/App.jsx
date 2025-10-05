@@ -129,8 +129,8 @@ export default function App() {
           <button
             onClick={() => setActiveTab('upload')}
             className={`flex-1 py-3 px-4 rounded-md font-medium transition-all ${activeTab === 'upload'
-                ? 'bg-blue-500 text-white shadow-lg'
-                : 'text-blue-200 hover:bg-white hover:bg-opacity-10'
+              ? 'bg-blue-500 text-white shadow-lg'
+              : 'text-blue-200 hover:bg-white hover:bg-opacity-10'
               }`}
           >
             <Upload className="w-5 h-5 inline mr-2" />
@@ -140,8 +140,8 @@ export default function App() {
             onClick={() => setActiveTab('results')}
             disabled={!results}
             className={`flex-1 py-3 px-4 rounded-md font-medium transition-all ${activeTab === 'results' && results
-                ? 'bg-blue-500 text-white shadow-lg'
-                : 'text-blue-200 hover:bg-white hover:bg-opacity-10 disabled:opacity-50 disabled:cursor-not-allowed'
+              ? 'bg-blue-500 text-white shadow-lg'
+              : 'text-blue-200 hover:bg-white hover:bg-opacity-10 disabled:opacity-50 disabled:cursor-not-allowed'
               }`}
           >
             <Target className="w-5 h-5 inline mr-2" />
@@ -151,8 +151,8 @@ export default function App() {
             onClick={() => setActiveTab('advanced')}
             disabled={!showAdvancedResults}
             className={`flex-1 py-3 px-4 rounded-md font-medium transition-all ${activeTab === 'advanced' && showAdvancedResults
-                ? 'bg-purple-500 text-white shadow-lg'
-                : 'text-purple-200 hover:bg-white hover:bg-opacity-10 disabled:opacity-50 disabled:cursor-not-allowed'
+              ? 'bg-purple-500 text-white shadow-lg'
+              : 'text-purple-200 hover:bg-white hover:bg-opacity-10 disabled:opacity-50 disabled:cursor-not-allowed'
               }`}
           >
             <Globe className="w-5 h-5 inline mr-2" />
@@ -205,13 +205,17 @@ export default function App() {
           <div className="space-y-6">
             {/* Banner */}
             <div className={`rounded-xl shadow-lg p-6 ${results.prediction === 'CONFIRMED'
-                ? 'bg-gradient-to-r from-green-500 to-emerald-600'
-                : 'bg-gradient-to-r from-orange-500 to-red-600'
+              ? 'bg-gradient-to-r from-green-500 to-emerald-600'
+              : 'bg-gradient-to-r from-orange-500 to-red-600'
               }`}>
               <div className="flex items-center justify-between text-white">
                 <div>
                   <h2 className="text-3xl font-bold mb-2">
-                    {results.prediction === 'CONFIRMED' ? '🎉 Exoplanet Detected!' : '🔍 No Exoplanet Detected'}
+                    {results.prediction === 'CONFIRMED'
+                      ? '🎉 Exoplanet Detected!'
+                      : results.prediction === 'CANDIDATE'
+                        ? '🛸 Candidate Exoplanet!'
+                        : '🔍 No Exoplanet Detected'}
                   </h2>
                   <p className="text-lg opacity-90">
                     Classification Confidence: {Math.max(...Object.values(results.probabilities)).toFixed(1)}%
@@ -221,13 +225,48 @@ export default function App() {
               </div>
             </div>
 
+            {/* Probability Distribution */}
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <TrendingUp className="w-6 h-6 mr-2 text-blue-500" />
+                Classification Probabilities
+              </h3>
+              <div className="space-y-4">
+                {Object.entries(results.probabilities).map(([label, prob]) => {
+                  const percentage = (prob * 100).toFixed(2);
+                  const isHighest = prob === Math.max(...Object.values(results.probabilities));
+                  return (
+                    <div key={label}>
+                      <div className="flex justify-between mb-2">
+                        <span className={`font-semibold ${isHighest ? 'text-blue-600' : 'text-gray-700'}`}>
+                          {label}
+                        </span>
+                        <span className={`font-bold ${isHighest ? 'text-blue-600' : 'text-gray-600'}`}>
+                          {percentage}%
+                        </span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                        <div
+                          className={`h-full rounded-full transition-all duration-500 ${label === 'CONFIRMED' ? 'bg-green-500' :
+                              label === 'CANDIDATE' ? 'bg-yellow-500' :
+                                'bg-red-500'
+                            } ${isHighest ? 'shadow-lg' : ''}`}
+                          style={{ width: `${percentage}%` }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* 3D Exoplanet Visualization or Info Message */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
                 <Globe className="w-6 h-6 mr-2 text-blue-500" />
                 3D Exoplanet Visualization
               </h3>
-              {results.prediction === 'CONFIRMED' || results.prediction === 'CANDIDATE' ? (
+              {results.prediction === 'CONFIRMED' ? (
                 <ExoplanetVisualization features={results.features} />
               ) : (
                 <div className="bg-gray-50 rounded-lg p-12 text-center">
@@ -236,7 +275,7 @@ export default function App() {
                     No Exoplanet Visualization Available
                   </h4>
                   <p className="text-gray-600">
-                    The analysis did not confirm an exoplanet detection. 
+                    The analysis did not confirm an exoplanet detection.
                     This could be a false positive or require additional verification.
                   </p>
                 </div>
