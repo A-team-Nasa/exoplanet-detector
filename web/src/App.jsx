@@ -6,6 +6,8 @@ import PredictionForm from './components/PredictionForm';
 import ExoplanetVisualization from './components/ExoplanetVisualization';
 import KidsMode from './components/KidsMode';
 import { predictSingleObject as apiPredict } from './services/api';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 function StatCard({ icon: Icon, title, value, subtitle, color }) {
   return (
