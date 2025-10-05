@@ -42,6 +42,67 @@ const PredictionForm = ({ onClose, onPredict }) => {
     koi_fpflag_ec: 'Ephemeris Match Flag (0 or 1)'
   };
 
+  // Lista de KOIs de ejemplo
+const exampleKOIs = [
+  // CONFIRMED: Kepler-227 b
+  {
+    koi_period: '9.488',
+    koi_impact: '0.146',
+    koi_duration: '2.9575',
+    koi_depth: '615.8',
+    koi_prad: '2.26',
+    koi_teq: '793.0',
+    koi_insol: '93.59',
+    koi_model_snr: '35.8',
+    koi_steff: '5455.0',
+    koi_slogg: '4.467',
+    koi_srad: '0.927',
+    koi_kepmag: '15.347',
+    koi_fpflag_nt: '0',
+    koi_fpflag_ss: '0',
+    koi_fpflag_co: '0',
+    koi_fpflag_ec: '0'
+  },
+  // CANDIDATE: K00753.01
+  {
+    koi_period: '19.899',
+    koi_impact: '0.969',
+    koi_duration: '1.7822',
+    koi_depth: '10829',
+    koi_prad: '14.6',
+    koi_teq: '638.0',
+    koi_insol: '39.3',
+    koi_model_snr: '76.3',
+    koi_steff: '5853.0',
+    koi_slogg: '4.544',
+    koi_srad: '0.868',
+    koi_kepmag: '15.436',
+    koi_fpflag_nt: '0',
+    koi_fpflag_ss: '0',
+    koi_fpflag_co: '0',
+    koi_fpflag_ec: '0'
+  },
+  // FALSE POSITIVE: K00754.01
+  {
+    koi_period: '1.7369',
+    koi_impact: '1.276',
+    koi_duration: '2.406',
+    koi_depth: '8079',
+    koi_prad: '33.46',
+    koi_teq: '1395.0',
+    koi_insol: '891.96',
+    koi_model_snr: '505.6',
+    koi_steff: '5805.0',
+    koi_slogg: '4.564',
+    koi_srad: '0.791',
+    koi_kepmag: '15.597',
+    koi_fpflag_nt: '0',
+    koi_fpflag_ss: '1',
+    koi_fpflag_co: '0',
+    koi_fpflag_ec: '0'
+  }
+];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -54,7 +115,6 @@ const PredictionForm = ({ onClose, onPredict }) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Convertir valores a números
     const numericData = {};
     for (const key in formData) {
       const value = formData[key];
@@ -72,24 +132,9 @@ const PredictionForm = ({ onClose, onPredict }) => {
   };
 
   const handleLoadExample = () => {
-    setFormData({
-      koi_period: '9.488',
-      koi_impact: '0.146',
-      koi_duration: '2.9575',
-      koi_depth: '615.8',
-      koi_prad: '2.26',
-      koi_teq: '793.0',
-      koi_insol: '93.59',
-      koi_model_snr: '35.8',
-      koi_steff: '5455.0',
-      koi_slogg: '4.467',
-      koi_srad: '0.927',
-      koi_kepmag: '15.347',
-      koi_fpflag_nt: '0',
-      koi_fpflag_ss: '0',
-      koi_fpflag_co: '0',
-      koi_fpflag_ec: '0'
-    });
+    // Escoger un KOI al azar
+    const randomKOI = exampleKOIs[Math.floor(Math.random() * exampleKOIs.length)];
+    setFormData(randomKOI);
   };
 
   return (
@@ -107,7 +152,7 @@ const PredictionForm = ({ onClose, onPredict }) => {
               className="btn-secondary"
               onClick={handleLoadExample}
             >
-              Load Example Data
+              Load Random Example
             </button>
           </div>
 
