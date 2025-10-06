@@ -4,6 +4,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import Papa from 'papaparse';
 import PredictionForm from './components/PredictionForm';
 import ExoplanetVisualization from './components/ExoplanetVisualization';
+import KidsMode from './components/KidsMode';
 import { predictSingleObject as apiPredict } from './services/api';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -28,13 +29,16 @@ export default function App() {
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('upload');
-
+  
   const [showPredictionForm, setShowPredictionForm] = useState(false);
   const [predictionResult, setPredictionResult] = useState(null);
   const [llmAnalysis, setLlmAnalysis] = useState('');
   const [showAdvancedResults, setShowAdvancedResults] = useState(false);
+  
+  // Estado para Kids Mode
+  const [isKidsMode, setIsKidsMode] = useState(false);
 
-  // 🚀 Nueva función: tomar los datos CSV y mandar al backend
+  // Función: tomar los datos CSV y mandar al backend
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -45,9 +49,9 @@ export default function App() {
         skipEmptyLines: true,
         complete: async (result) => {
           try {
-            setCsvData(result.data[0]);
+            setCsvData(result.data);
             // Mandamos directamente al backend
-            const response = await apiPredict(result.data[0]);
+            const response = await apiPredict({ lightcurve: result.data });
 
             if (response.success) {
               setResults(response);
@@ -73,7 +77,7 @@ export default function App() {
     }
   };
 
-  // 🚀 Predicción desde formulario (objeto individual)
+  // Predicción desde formulario (objeto individual)
   const handlePredict = async (data) => {
     setLoading(true);
     try {
@@ -94,6 +98,11 @@ export default function App() {
     }
   };
 
+  // Si está en modo Kids, mostrar solo ese componente
+  if (isKidsMode) {
+    return <KidsMode onExit={() => setIsKidsMode(false)} />;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-blue-900">
       {/* Header */}
@@ -108,7 +117,15 @@ export default function App() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <button
+              {/* Botón Kids Mode */}
+              <button 
+                className="btn-kids-mode"
+                onClick={() => setIsKidsMode(true)}
+              >
+                🎨 Kids Mode
+              </button>
+              
+              <button 
                 className="btn-predict-single"
                 onClick={() => setShowPredictionForm(true)}
               >
